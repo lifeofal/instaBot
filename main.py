@@ -9,8 +9,12 @@ class InstaBot:
     def __init__(self, user, pw, sc):
         self.user = user
 
+        try:
+            self.driver = webdriver.Chrome()
+        except Exception:
+            print("Expression found")
+            self.driver = webdriver.Chrome('C:\\bin\chromedriver.exe')
 
-        self.driver = webdriver.Chrome('C:\\bin\chromedriver.exe');
         self.driver.get("https://instagram.com")
         sleep(2)
 
