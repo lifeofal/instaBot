@@ -1,2 +1,1 @@
 # instaBot
-# instagramBot-_Windows
