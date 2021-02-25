@@ -10,9 +10,9 @@ class InstaBot:
         self.user = user
 
 
-        self.driver = webdriver.Chrome();
+        self.driver = webdriver.Chrome('C:\\bin\chromedriver.exe');
         self.driver.get("https://instagram.com")
-        sleep(1)
+        sleep(2)
 
         self.driver.find_element_by_xpath("//input[@name=\"username\"]")\
             .send_keys(user)
@@ -36,6 +36,7 @@ class InstaBot:
 
 
         except NoSuchElementException:
+            sleep(1)
             pass
 
         self.after_Log()
@@ -45,10 +46,20 @@ class InstaBot:
         sleep(2)
 
         self.driver.find_element_by_xpath("//button[contains(text(),'Not Now')]").click()
-        sleep(2)
+        sleep(3)
 
-        self.driver.find_element_by_xpath("//a[contains(@href, '/{}')]".format(self.user)) \
+        try:
+            self.driver.find_element_by_xpath("//a[contains(@href, '/{}/')]".format(self.user)) \
             .click()
+
+        except NoSuchElementException:
+            self.driver.find_element_by_xpath('//*[@id="react-root"]/section/nav/div[2]/div/div/div[3]/div/div[5]/span/img') \
+                .click()
+            sleep(1)
+
+            self.driver.find_element_by_xpath('//*[@id="react-root"]/section/nav/div[2]/div/div/div[3]/div/div[5]/div[2]/div[2]/div[2]/a[1]/div')\
+            .click()
+
         sleep(2)
 
 
