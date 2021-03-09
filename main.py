@@ -8,11 +8,11 @@ from secrets import pw
 from selenium import webdriver
 
 class InstaBot:
-    def __init__(self, user, pw):
+    def __init__(self, user, pw, answer):
         self.user = user
         self.chrome_options = webdriver.ChromeOptions()
         self.chrome_options.add_argument("window-size=1920,1080")
-        self.chrome_options.add_argument("--disable-extensions")
+        self.chrome_options.add_argument("--disable -extensions")
         self.chrome_options.add_argument("--proxy-server='direct://'")
         self.chrome_options.add_argument("--proxy-bypass-list=*")
         self.chrome_options.add_argument("--start-maximized")
@@ -24,8 +24,8 @@ class InstaBot:
         self.chrome_options.headless = True
 
 
-        print("Would you like to run this in headless? (y/n)")
-        answer = input()
+        #print("Would you like to run this in headless? (y/n)")
+        #answer = input()
         #
         #Initiate the headless or webbrowser run
         #
@@ -179,6 +179,7 @@ class InstaBot:
 
         links = scroll_box.find_elements_by_tag_name('a')
         names = [name.text for name in links if name.text != '']
+
         return names
 
     def list_creation(self):
@@ -189,9 +190,10 @@ class InstaBot:
 
         not_following_back = [user for user in self.following_names if user not in self.follower_names]
         print(not_following_back)
+        return not_following_back
 
 
 
-my_bot = InstaBot('lifeof_alejandro', pw)
-print("Running List_Creation")
-my_bot.list_creation()
+#my_bot = InstaBot('lifeof_alejandro', pw)
+#print("Running List_Creation")
+#my_bot.list_creation()
