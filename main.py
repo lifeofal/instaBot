@@ -61,7 +61,7 @@ class InstaBot:
             except Exception:
                 print("xpath Element not found with \"//input[@name=\"username\"]\"")
                 self.driver.find_element_by_xpath("/html/body/div[1]/section/main/article/div[2]/div[1]/div/form/div/div[1]/div/label/input")
-            #self.driver.find_element_by_xpath("//input[@name=\"username\"]")
+
 
             self.driver.find_element_by_xpath("//input[@name=\"password\"]")\
                 .send_keys(pw)

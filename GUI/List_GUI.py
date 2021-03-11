@@ -9,7 +9,7 @@ class listGUI:
 
 
         for x in range(len(nameList)):
-            Lb1.insert(x+1, nameList[x])
+            Lb1.insert(x, nameList[x])
 
         Lb1.pack()
         top.mainloop()

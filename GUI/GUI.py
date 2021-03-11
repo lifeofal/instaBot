@@ -2,6 +2,7 @@ import tkinter
 import time
 import main as instaBot
 import List_GUI as lG
+from secrets import pw
 
 def onPressNumber():
     userInput = username.get()
@@ -9,7 +10,7 @@ def onPressNumber():
     print(username)
 
 
-    initLogin = instaBot.InstaBot('lifeof_alejandro', 'IndiaMike0722!', 'y')
+    initLogin = instaBot.InstaBot('lifeof_alejandro', pw, 'y')
     initFollowers = initLogin.list_creation()
     lG.listGUI(initFollowers,window)
 
