@@ -12,7 +12,8 @@ def onPressNumber():
 
     initLogin = instaBot.InstaBot('lifeof_alejandro', pw, 'y')
     initFollowers = initLogin.list_creation()
-    lG.listGUI(initFollowers,window)
+    #lG.listGUI(initFollowers,window)
+    lG.scrollText(initFollowers,window)
 
 
     num.config(text='nothing', justify=tkinter.CENTER, anchor=tkinter.W, wraplength=300)

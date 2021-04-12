@@ -1,4 +1,6 @@
-from tkinter import Listbox
+from tkinter import Listbox, Scrollbar, RIGHT, Y, Text, NONE, END, TOP, X
+import tkinter
+
 
 class listGUI:
     def __init__(self, nameList,window):
@@ -13,3 +15,25 @@ class listGUI:
 
         Lb1.pack()
         top.mainloop()
+
+class scrollText:
+    def __init__(self, nameList, window):
+        root = window
+
+
+        v = Scrollbar(root)
+
+        v.pack(side= RIGHT, fill = Y)
+
+        t = tkinter.text(root, height = 300, width = 250, wrap = NONE, yscrollcommand = v.set)
+
+        for x in range(len(nameList)):
+            t.config(text=nameList[x])
+
+
+
+        t.pack(side=TOP, fill = X)
+
+        v.config(command = t.yview)
+
+        root.mainloop()
