@@ -2,12 +2,20 @@ from time import sleep
 
 
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver import ActionChains
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.keys import Keys
 
 from secrets import pw
 from selenium import webdriver
 
+import multiprocessing
+import time
+
+
+
 class InstaBot:
+
     def __init__(self, user, pw):
         self.user = user
         self.chrome_options = webdriver.ChromeOptions()
@@ -25,11 +33,11 @@ class InstaBot:
 
 
         print("Would you like to run this in headless? (y/n)")
-        answer = input()
+        answer = 'n'
         #
         #Initiate the headless or webbrowser run
         #
-        if answer == 'n' or answer == 'n':
+        if answer == 'n' or answer == 'N':
             try:
                 self.driver = webdriver.Chrome()
             except Exception:
@@ -88,10 +96,10 @@ class InstaBot:
         except Exception:
             print("Error occured in \'Log in\' phase. Capturing screenshot of page")
             self.driver.get_screenshot_as_file("LogInError.png")
-
             exit()
         print("Log In complete.. Running after_Log")
         self.after_Log()
+
 
     def after_Log(self):
         try:
@@ -112,7 +120,7 @@ class InstaBot:
 
             try:
                 self.driver.find_element_by_xpath("//a[contains(@href, '/{}/')]".format(self.user)) \
-                .click()
+                    .click()
 
             except NoSuchElementException:
                 self.driver.find_element_by_xpath('//*[@id="react-root"]/section/nav/div[2]/div/div/div[3]/div/div[5]/span/img') \
@@ -120,9 +128,16 @@ class InstaBot:
 
 
                 self.driver.find_element_by_xpath('//*[@id="react-root"]/section/nav/div[2]/div/div/div[3]/div/div[5]/div[2]/div[2]/div[2]/a[1]/div')\
-                .click()
+                    .click()
+
+
+
+
+
+
+
         except Exception:
-            print("Error occured in \'After Log\' phase. Capturing screenshot of page")
+            print("Error occurred in \'After Log\' phase. Capturing screenshot of page")
             self.driver.get_screenshot_as_file("AfterLogError.png")
             exit()
 
@@ -130,68 +145,8 @@ class InstaBot:
 
 
 
-    def following(self):
 
 
-        self.driver.find_element_by_xpath("//*[@id=\"react-root\"]/section/main/div/header/section/ul/li[3]/a") \
-            .click()
-
-
-        self.following_names = self._get_names("Following")
-
-        self.driver.find_element_by_xpath("/html/body/div[5]/div/div/div[1]/div/div[2]/button")\
-        .click()
-
-
-    def followers(self):
-
-        self.driver.find_element_by_xpath("//*[@id=\"react-root\"]/section/main/div/header/section/ul/li[2]/a") \
-            .click()
-
-
-        self.follower_names = self._get_names("Followers")
-
-        self.driver.find_element_by_xpath("/html/body/div[5]/div/div/div[1]/div/div[2]/button") \
-            .click()
-
-
-    def _get_names(self, methodName):
-        print("the {} method has called the _get_names method".format(methodName))
-        try:
-
-            sugs = self.driver.find_element_by_xpath("//h4[contains(text(), 'Suggestions')]")
-
-            self.driver.execute_script('arguments[0].scrollIntoView()', sugs)
-        except NoSuchElementException:
-            print("No suggestions tab found. Continuing..")
-            pass
-        sleep(1)
-
-        last_ht, ht =0,1
-        scroll_box = self.driver.find_element_by_xpath("/html/body/div[5]/div/div/div[2]")
-        while last_ht !=ht:
-            last_ht = ht
-            sleep(1)
-            ht = self.driver.execute_script("""
-            arguments[0].scrollTo(0, arguments[0].scrollHeight);
-            return arguments[0].scrollHeight;
-            """, scroll_box)
-
-        links = scroll_box.find_elements_by_tag_name('a')
-        names = [name.text for name in links if name.text != '']
-        return names
-
-    def list_creation(self):
-        print("Running Following method")
-        self.following()
-        print("Running Follower method")
-        self.followers()
-
-        not_following_back = [user for user in self.following_names if user not in self.follower_names]
-        print(not_following_back)
-
-
-
-my_bot = InstaBot('lifeof_alejandro', pw)
-print("Running List_Creation")
-my_bot.list_creation()
+# my_bot = InstaBot('lifeof_alejandro', pw)
+# print("Running List_Creation")
+# my_bot.list_creation()
