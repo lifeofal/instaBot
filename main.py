@@ -1,6 +1,6 @@
 from time import sleep
-
-
+import list_creation
+import concurrent.futures as conF
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.chrome.options import Options
@@ -15,6 +15,7 @@ import time
 
 
 class InstaBot:
+
 
     def __init__(self, user, pw):
         self.user = user
@@ -64,17 +65,17 @@ class InstaBot:
 
 
             try:
-                self.driver.find_element_by_xpath("//input[@name=\"username\"]")\
+                self.driver.find_element_by_xpath("//input[@name=\"username\"]") \
                     .send_keys(user)
             except Exception:
                 print("xpath Element not found with \"//input[@name=\"username\"]\"")
                 self.driver.find_element_by_xpath("/html/body/div[1]/section/main/article/div[2]/div[1]/div/form/div/div[1]/div/label/input")
             #self.driver.find_element_by_xpath("//input[@name=\"username\"]")
 
-            self.driver.find_element_by_xpath("//input[@name=\"password\"]")\
+            self.driver.find_element_by_xpath("//input[@name=\"password\"]") \
                 .send_keys(pw)
 
-            self.driver.find_element_by_xpath("//button[@type=\"submit\"]")\
+            self.driver.find_element_by_xpath("//button[@type=\"submit\"]") \
                 .click()
 
 
@@ -99,6 +100,18 @@ class InstaBot:
             exit()
         print("Log In complete.. Running after_Log")
         self.after_Log()
+
+        if __name__ == "__main__":
+            with conF.ProcessPoolExecutor() as executor:
+                followerProcess = executor.submit(list_creation, self.driver, 1)
+                self.newDriver = self.driver
+                followingProcess = executor.submit(list_creation, self.newDriver, 0)
+                self.follower_names = followerProcess.result()
+                self.following_names = followingProcess.result()
+
+                not_following_back = [user for user in self.following_names if user not in self.follower_names]
+                print(not_following_back)
+
 
 
     def after_Log(self):
@@ -127,14 +140,8 @@ class InstaBot:
                     .click()
 
 
-                self.driver.find_element_by_xpath('//*[@id="react-root"]/section/nav/div[2]/div/div/div[3]/div/div[5]/div[2]/div[2]/div[2]/a[1]/div')\
+                self.driver.find_element_by_xpath('//*[@id="react-root"]/section/nav/div[2]/div/div/div[3]/div/div[5]/div[2]/div[2]/div[2]/a[1]/div') \
                     .click()
-
-
-
-
-
-
 
         except Exception:
             print("Error occurred in \'After Log\' phase. Capturing screenshot of page")
@@ -142,11 +149,20 @@ class InstaBot:
             exit()
 
 
+    #def createNewWindow(self, driver, protocall):
 
 
 
 
 
-# my_bot = InstaBot('lifeof_alejandro', pw)
-# print("Running List_Creation")
-# my_bot.list_creation()
+
+
+
+
+
+
+
+
+my_bot = InstaBot('lifeof_alejandro', pw)
+print("Running List_Creation")
+my_bot.list_creation()

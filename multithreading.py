@@ -7,14 +7,10 @@ import list_creation
 
 if __name__ == "__main__":
     with conF.ProcessPoolExecutor() as executor:
-        followerProcess = executor.submit(InstaBot, 'lifeof_alejandro', pw)
-        #followingProcess = executor.submit(InstaBot,'lifeof_alejandro', pw)
+        followerProcess = executor.submit(InstaBot, 'lifeof_alejandro', pw, 1)
+        followingProcess = executor.submit(InstaBot,'lifeof_alejandro', pw, 0)
+        d1 = followerProcess.result()
+        d2 = followingProcess.result()
 
-        #d1 = followingProcess.result()
-        d2 = followerProcess.result()
+        print(d1)
 
-        following_names = list_creation(d2.driver, 0)
-        follower_names = list_creation(d2.driver, 1)
-
-        not_following_back = [user for user in following_names if user not in follower_names]
-        print(not_following_back)

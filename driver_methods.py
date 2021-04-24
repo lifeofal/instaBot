@@ -23,7 +23,6 @@ def followers(driver):
         .click()
     return follower_names
 
-
 def _get_names(driver, methodName):
     print("the {} method has called the _get_names method".format(methodName))
     try:
@@ -49,5 +48,7 @@ def _get_names(driver, methodName):
     links = scroll_box.find_elements_by_tag_name('a')
     names = [name.text for name in links if name.text != '']
     return names
+
+
 
 
